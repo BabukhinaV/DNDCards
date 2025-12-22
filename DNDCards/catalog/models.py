@@ -70,14 +70,16 @@ class Player(models.Model):
     name = models.CharField('Имя', max_length=255)
     level = models.IntegerField('Уровень')
     pclass = models.ForeignKey(
-        PClass, verbose_name='Класс', on_delete=models.DO_NOTHING)   
+        PClass, verbose_name='Класс', null=True, blank=True, on_delete=models.DO_NOTHING)   
     race = models.ForeignKey(
-        Race, verbose_name='Раса', on_delete=models.DO_NOTHING)   
+        Race, verbose_name='Раса', null=True, blank=True, on_delete=models.DO_NOTHING)   
     exp = models.IntegerField('Опыт')
     history = models.ForeignKey(
-        History, verbose_name='Предыстория', on_delete=models.DO_NOTHING)  
+        History, verbose_name='Предыстория', null=True, blank=True, on_delete=models.DO_NOTHING)  
     user = models.OneToOneField(
         User, blank=True, null=True, on_delete=models.SET_NULL)
+    img = models.ImageField(
+        'Изображение', null=True, blank=True, upload_to="images/")
     
     def __str__(self):
         return self.name
