@@ -4,6 +4,8 @@ from django.contrib.auth.models import User
 class Race(models.Model):
     title = models.CharField('Название', max_length=255)
     descr = models.TextField('Описание', max_length=7000)
+    img = models.ImageField(
+        'Изображение', null=True, blank=True, upload_to="images/")
 
     def __str__(self):
         return self.title
@@ -28,6 +30,8 @@ class History(models.Model):
 class PClass(models.Model):
     title = models.CharField('Название', max_length=255)
     descr = models.TextField('Описание', max_length=7000)
+    img = models.ImageField(
+        'Изображение', null=True, blank=True, upload_to="images/")
 
     def __str__(self):
         return self.title
@@ -103,8 +107,7 @@ class Spell(models.Model):
     descr = models.TextField('Описание', max_length=7000)
     level = models.IntegerField('Уровень')
     cast_time = models.CharField('Время накладывания', max_length=255)
-    distance = models.CharField('Дистанция', max_length=255)    
-    school = models.CharField('Дистанция', max_length=255)
+    distance = models.CharField('Дистанция', max_length=255)     
 
     def __str__(self):
         return self.title
@@ -132,6 +135,7 @@ class PlayerSpell(models.Model):
 
 class Skill(models.Model):
     title = models.CharField('Название', max_length=255)
+    descr = models.TextField('Описание', max_length=7000, blank=True, null=True)
 
     def __str__(self):
         return str(self.id)

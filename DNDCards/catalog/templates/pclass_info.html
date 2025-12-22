@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container">
+<div class="row mt-5 mb-3">
+    <div class="col-md-4 col-12">
+         {% include 'subnavbar.html' %}    
+    </div>
+    <div class="col-md-8 col-12">
+        <h4>{{pclass.title}}</h4>
+        <div class="row">
+            <div class="col-md-6 col-12">
+                {{pclass.descr}}
+            </div>
+            <div class="col-md-6 col-12">
+                <img class="w-100" src="{{ pclass.img.url }}" alt="">
+            </div>          
+        </div>
+    </div>
+</div>
+</div>
+
+{% endblock %}

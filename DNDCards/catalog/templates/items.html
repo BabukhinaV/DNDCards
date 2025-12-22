@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container">
+<div class="row mt-5">
+    <div class="col-md-4 col-12">
+         {% include 'subnavbar.html' %}    
+    </div>
+    <div class="col-md-8 col-12">
+        <h4>Предметы</h4>
+        <table class="table table-hover">
+  <thead>
+    <tr class="table-dark">     
+      <th scope="col">Категория</th> 
+      <th scope="col">Название</th>
+      <th scope="col">Описание</th>      
+    </tr>
+  </thead>
+  <tbody>
+    {% for item in items %}
+    <tr>  
+      <td>{{item.category}}</td>   
+      <td>{{item.title}}</td>
+      <td>{{item.descr}}</td>      
+    </tr>    
+    {% endfor %}
+  </tbody>
+</table>
+    </div>
+</div>
+</div>
+
+{% endblock %}

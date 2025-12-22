@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container-fluid">
+<div class="row mt-5">
+    <div class="col-md-2 col-12">
+         {% include 'subnavbar.html' %}    
+    </div>
+    <div class="col-md-10 col-12">
+        <h4>Заклинания</h4>
+        <table class="table table-hover">
+  <thead>
+    <tr class="table-dark">   
+      <th scope="col">Название</th>
+      <th scope="col">Описание</th>      
+      <th scope="col">Уровень</th> 
+      <th scope="col">Время накладывания</th> 
+      <th scope="col">Дистанция</th> 
+    </tr>
+  </thead>
+  <tbody>
+    {% for spell in spells %}
+    <tr>         
+      <td>{{spell.title}}</td>
+      <td>{{spell.descr}}</td>   
+      <td>{{spell.level}}</td>   
+      <td>{{spell.cast_time}}</td>   
+      <td>{{spell.distance}}</td>   
+    </tr>    
+    {% endfor %}
+  </tbody>
+</table>
+    </div>
+</div>
+</div>
+
+{% endblock %}
