@@ -67,7 +67,7 @@ class InventoryItem(models.Model):
 
 
 class Player(models.Model):
-    name = models.CharField('Имя', max_length=255)
+    name = models.CharField('Имя', blank=True, null=True, max_length=255)
     level = models.IntegerField('Уровень')
     pclass = models.ForeignKey(
         PClass, verbose_name='Класс', null=True, blank=True, on_delete=models.DO_NOTHING)   
@@ -82,7 +82,7 @@ class Player(models.Model):
         'Изображение', null=True, blank=True, upload_to="images/")
     
     def __str__(self):
-        return self.name
+        return str(self.id)
 
     class Meta:
         verbose_name = ('Персонаж')

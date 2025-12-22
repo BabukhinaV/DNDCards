@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container-fluid">
+<div class="row mt-5">   
+    <div class="col-md-12 col-12">
+        {% if players.count == o %}
+        <h5>Вы еще не создали ни одного персонажа.</h5>
+        {% else %}
+        <h4>Персонажи</h4>
+        <table class="table table-hover">
+  <thead>
+    <tr class="table-dark">   
+      <th scope="col">Имя</th>
+      <th scope="col">Аватар</th>
+      <th scope="col">Уровень</th>      
+      <th scope="col">Класс</th> 
+      <th scope="col">Раса</th> 
+      <th scope="col">Опыт</th>  
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for player in players %}
+    <tr>         
+      <td>{{player.name}}</td>
+      <td> 
+        {% if player.img != None %}
+        <img style="height: 100px;" src="{{ player.img.url }}" alt="">
+        {% else %}
+        {% endif %}
+    </td>
+      <td>{{player.level}}</td>   
+      <td>{{player.pclass}}</td>   
+      <td>{{player.race}}</td>   
+      <td>{{player.exp}}</td>   
+      <td><a href="{% url 'show_history' player.id  %}" class="btn btn-success fs-3">Предыстория</a></td>
+      <td><a href="{% url 'show_history' player.id  %}" class="btn btn-success fs-3">Изменить</a></td>
+      <td><a href="{% url 'show_history' player.id  %}" class="btn btn-success fs-3">Удалить</a></td>
+    </tr>    
+    {% endfor %}
+  </tbody>
+</table>
+{% endif %}
+    </div>
+</div>
+</div>
+
+{% endblock %}
