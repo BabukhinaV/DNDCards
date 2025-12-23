@@ -1,23 +1,18 @@
 {% load static %}
 <nav class="navbar navbar-expand-lg bg-primary" data-bs-theme="dark">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#">DND</a>
+    <a class="navbar-brand" href="{% url 'home' %}">DND</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarColor03"> 
-      <ul class="navbar-nav me-auto">                
-        <li class="nav-item">
-          <a class="nav-link active" href="#">Главная
-            <span class="visually-hidden">(current)</span>
-          </a>
-        </li>   
+      <ul class="navbar-nav me-auto">  
         {% if user.is_authenticated %} 
         <li class="nav-item">
           <a class="nav-link" href="{% url 'profile' %}">Профиль</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="{% url 'logout' %}">Создать персонажа</a>
+          <a class="nav-link" href="{% url 'create_player' %}">Создать персонажа</a>
         </li>
         {% endif %}
         <li class="nav-item dropdown">

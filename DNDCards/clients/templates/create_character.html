@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container">
+    <h1 class="text-center text-primary mt-5 mb-3">Создание персонажа</h1>
+    <div class="row">
+      <div class="offset-md-4 col-md-4 offset-md-4 col-12">
+        <form method="post" enctype="multipart/form-data">
+          {% csrf_token %}
+          <fieldset>
+            <div class="form-group">
+               <label  class="form-label mt-4">Имя</label>
+               <input required type="text" class="form-control" name="pname" >
+            </div>
+            <div>
+                <label class="form-label mt-4">Раса</label>
+                <select required class="form-select" name="prace">
+                    {% for race in races %}
+                    <option value="{{race.id}}">{{race.title}}</option>   
+                    {% endfor %}
+                </select>
+            </div>
+            <div>
+                <label class="form-label mt-4">Класс</label>
+                <select required class="form-select" name="pcl">
+                    {% for pclass in pclasses %}
+                    <option value="{{pclass.id}}">{{pclass.title}}</option>   
+                    {% endfor %}
+                </select>
+            </div>
+            <div>
+                <label class="form-label mt-4">Предыстория</label>
+                <select required class="form-select" name="phistory">
+                    {% for history in histories %}
+                    <option value="{{history.id}}">{{history.title}}</option>   
+                    {% endfor %}
+                </select>
+            </div>
+            <div>
+            <label  class="form-label mt-4">Аватар</label>
+            <input required class="form-control" type="file" name="img">
+           </div>  
+              <button type="submit" class="btn btn-primary mt-3">Создать</button>  
+          </fieldset>
+        </form>
+      </div>
+      <!-- /.offset-md-4 col-md-4 offset-md-4 col-12 -->
+    </div>
+    <!-- /.row -->
+</div>
+{% endblock %}

@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container">
+    <h1 class="text-center text-primary mt-5 mb-3">Изменение данных персонажа</h1>
+    <div class="row">
+      <div class="offset-md-4 col-md-4 offset-md-4 col-12">
+        <form method="post" enctype="multipart/form-data">
+          {% csrf_token %}
+          <fieldset>
+            <div class="form-group">
+               <label  class="form-label mt-4">Имя</label>
+               <input required type="text" class="form-control" name="pname" value="{{player.name}}">
+            </div>               
+            <div>
+                <label class="form-label mt-4">Предыстория</label>
+                <select required class="form-select" name="phistory">
+                    {% for history in histories %}
+                    {% if player.history.id == history.id %}
+                    <option selected value="{{history.id}}">{{history.title}}</option>   
+                    {% else %} 
+                    <option value="{{history.id}}">{{history.title}}</option>   
+                    {% endif %}  
+                    {% endfor %}
+                </select>
+            </div>
+            <div>
+            <label  class="form-label mt-4">Аватар</label>
+             <img style="width: 200px;" src="{{ player.img.url }}" alt="">
+            <input class="form-control" type="file" name="img">
+           </div>  
+              <button type="submit" class="btn btn-primary mt-3">Изменить</button>  
+          </fieldset>
+        </form>
+      </div>
+      <!-- /.offset-md-4 col-md-4 offset-md-4 col-12 -->
+    </div>
+    <!-- /.row -->
+</div>
+{% endblock %}

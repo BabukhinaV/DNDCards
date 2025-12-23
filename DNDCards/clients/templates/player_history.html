@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container">
+    <h2 class="text-center mt-5 mb-5">Предыстория персонажа: {{player.name}}</h4>
+      <div class="text-center mb-5">
+         <img style="width: 300px;" src="{{ player.img.url }}" alt="">
+      </div>
+<div class="row"> 
+    <div class="col-md-6 col-12">
+    <p>
+        {% if player.history == None %}
+        {% else %}
+        <p>{{player.history}}</p>         
+        <p> {{player.history.descr}}    </p>
+        {% endif %}   
+    </p>
+    </div>
+    <div class="col-md-6 col-12">     
+        <ul class="list-group">
+  <li class="list-group-item d-flex justify-content-between align-items-center">
+    Раса:
+      {% if player.race == None %}
+      {% else %}
+       {{player.race}}
+       {% endif %}   
+  </li>
+  <li class="list-group-item d-flex justify-content-between align-items-center">
+    Класс: 
+       {% if player.pclass == None %}
+      {% else %}
+       {{player.pclass}}
+       {% endif %}
+  </li>
+  <li class="list-group-item d-flex justify-content-between align-items-center">
+    Уровень: {{player.level}}    
+  </li>
+   <li class="list-group-item d-flex justify-content-between align-items-center">
+    Опыт: {{player.exp}}  
+  </li>
+</ul>  
+    </div>    
+</div>
+</div>
+{% endblock %}
