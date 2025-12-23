@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from catalog.models import History, PClass, Player, Race
+from catalog.models import History, PClass, PClassSkill, Player, PlayerSkill, PlayerSpell, Race
 from django.contrib import messages
 
 def profile(request):
@@ -9,11 +9,15 @@ def profile(request):
 
 def show_history(request, p_id):
     player = Player.objects.get(pk=p_id)
-    return render(request, 'player_history.html', {'player': player})
+    skills = PlayerSkill.objects.filter(player_id=player.id)
+    spells = PlayerSpell.objects.filter(player_id=player.id)
+    return render(request, 'player_history.html', {'player': player, 'skills': skills, 'spells': spells})
 
 
 def delete_character(request, p_id):
     player = Player.objects.get(pk=p_id)
+    p_skills = PlayerSkill.objects.filter(player_id=player.id)
+    p_skills.delete()
     player.delete()    
     players = Player.objects.filter(user_id=request.user.id).order_by('-level')
     messages.success(request, ("Вы удалили персонажа."))
@@ -26,12 +30,18 @@ def create_player(request):
         race_id = request.POST['prace']
         pclass_id = request.POST['pcl']
         history_id = request.POST['phistory']
-        img = request.POST['img']  
+        img = request.POST.get('img', None)    #request.POST['img']  
         race = Race.objects.get(pk=race_id)
         pclass = PClass.objects.get(pk=pclass_id)
         history = History.objects.get(pk=history_id)
-        player = Player(name=pname, level=1, pclass=pclass, race=race, exp=0, history=history, user=request.user, img = 'images/' + img)        
+        player = Player(name=pname, level=1, pclass=pclass, race=race, exp=0, history=history, user=request.user, img = 'images/' + str(img))        
         player.save()
+
+        base_skills = PClassSkill.objects.filter(pclass_id=pclass_id)
+        for base_skill in base_skills:
+            player_skill = PlayerSkill(skill=base_skill.skill, svalue=base_skill.svalue, player=player)
+            player_skill.save()   
+
         messages.success(request, ("Персонаж добавлен."))  
         players = Player.objects.filter(user_id=request.user.id).order_by('-level')      
         return render(request, 'profile.html', {'players': players})    
@@ -44,7 +54,7 @@ def create_player(request):
 
 def edit_player(request, p_id):
     player = Player.objects.get(pk=p_id)
-    if request.method == "POST":
+    if request.method == "POST":        
         pname = request.POST['pname']        
         history_id = request.POST['phistory']
         img = request.POST['img']          
@@ -60,3 +70,20 @@ def edit_player(request, p_id):
     else:        
         histories = History.objects.all()
         return render(request, 'edit_character.html', {'player': player, 'histories': histories})
+    
+
+def distribute_points(request, p_id):
+    player = Player.objects.get(pk=p_id)
+    p_skills = PlayerSkill.objects.filter(player_id=player.id)
+    if request.method == "POST":
+        charact_id = request.POST['charact'] 
+        player_skill = PlayerSkill.objects.get(pk=charact_id)
+        player_skill.svalue = player_skill.svalue + 1        
+        player.free_points = player.free_points - 1    
+        player_skill.save()
+        player.save()
+        messages.success(request, ("Харакктеристика изменена"))  
+        players = Player.objects.filter(user_id=request.user.id).order_by('-level')      
+        return render(request, 'profile.html', {'players': players})    
+    else:                
+        return render(request, 'distribute_points.html', {'player': player, 'p_skills': p_skills})

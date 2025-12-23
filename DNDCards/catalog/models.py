@@ -76,10 +76,12 @@ class Player(models.Model):
     exp = models.IntegerField('Опыт')
     history = models.ForeignKey(
         History, verbose_name='Предыстория', null=True, blank=True, on_delete=models.DO_NOTHING)  
-    user = models.OneToOneField(
+    user = models.ForeignKey(
         User, blank=True, null=True, on_delete=models.SET_NULL)
     img = models.ImageField(
         'Изображение', null=True, blank=True, upload_to="images/")
+    free_points = models.IntegerField('Свободные очки', null=True, blank=True)
+    inventory = models.ManyToManyField(InventoryItem, verbose_name='Предмет инвентаря')
     
     def __str__(self):
         return str(self.id)
@@ -123,8 +125,7 @@ class PlayerSpell(models.Model):
     player = models.ForeignKey(
         Player, verbose_name='Персонаж', on_delete=models.DO_NOTHING)  
     spell = models.ForeignKey(
-        Spell, verbose_name='Заклинание', on_delete=models.DO_NOTHING)  
-    level = models.IntegerField('Уровень')
+        Spell, verbose_name='Заклинание', on_delete=models.DO_NOTHING)    
     bonus = models.IntegerField('Бонус')
 
     def __str__(self):
@@ -140,14 +141,14 @@ class Skill(models.Model):
     descr = models.TextField('Описание', max_length=7000, blank=True, null=True)
 
     def __str__(self):
-        return str(self.id)
+        return self.title
 
     class Meta:
         verbose_name = ('Навык')
         verbose_name_plural = ('Навыки')
 
 
-class PClassSkill(models.Model):
+class PClassSkill(models.Model): 
     skill = models.ForeignKey(
         Skill, verbose_name='Навык', on_delete=models.DO_NOTHING)  
     svalue = models.IntegerField('Значение')
@@ -177,28 +178,28 @@ class PlayerSkill(models.Model):
         verbose_name_plural = ('Навыки персонажа')
 
 
-class InventoryCategoryCharacteristic(models.Model):
-    title = models.CharField('Название', max_length=255)    
+#class InventoryCategoryCharacteristic(models.Model):
+    #title = models.CharField('Название', max_length=255)    
 
-    def __str__(self):
-        return self.title
+    #def __str__(self):
+        #return self.title
 
-    class Meta:
-        verbose_name = ('Характеристика предмета инвентаря')
-        verbose_name_plural = ('Характеристики предмета инвентаря')
+    #class Meta:
+        #verbose_name = ('Характеристика предмета инвентаря')
+        #verbose_name_plural = ('Характеристики предмета инвентаря')
 
 
-class ItemCharact(models.Model):
-    item = models.ForeignKey(
-        InventoryItem, verbose_name='Предмет инвентаря', on_delete=models.DO_NOTHING)   
-    charact = models.ForeignKey(
-        InventoryCategoryCharacteristic, verbose_name='Характеристика предмета инвентаря', on_delete=models.DO_NOTHING)   
-    ch_value = models.CharField('Значение', max_length=255)
+#class ItemCharact(models.Model):
+    #item = models.ForeignKey(
+        #InventoryItem, verbose_name='Предмет инвентаря', on_delete=models.DO_NOTHING)   
+    #charact = models.ForeignKey(
+        #InventoryCategoryCharacteristic, verbose_name='Характеристика предмета инвентаря', on_delete=models.DO_NOTHING)   
+    #ch_value = models.CharField('Значение', max_length=255)
 
-    def __str__(self):
-        return str(self.id)
+    #def __str__(self):
+        #return str(self.id)
 
-    class Meta:
-        verbose_name = ('Значение характеристики')
-        verbose_name_plural = ('Значения характеристики')
+    #class Meta:
+        #verbose_name = ('Значение характеристики')
+        #verbose_name_plural = ('Значения характеристики')
     
