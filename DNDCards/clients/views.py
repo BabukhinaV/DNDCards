@@ -82,7 +82,7 @@ def distribute_points(request, p_id):
         player.free_points = player.free_points - 1    
         player_skill.save()
         player.save()
-        messages.success(request, ("Харакктеристика изменена"))  
+        messages.success(request, ("Характеристика изменена"))  
         players = Player.objects.filter(user_id=request.user.id).order_by('-level')      
         return render(request, 'profile.html', {'players': players})    
     else:                

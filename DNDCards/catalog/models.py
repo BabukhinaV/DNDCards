@@ -89,22 +89,7 @@ class Player(models.Model):
     class Meta:
         verbose_name = ('Персонаж')
         verbose_name_plural = ('Персонажи')
-    
-
-class PlayerItem(models.Model):
-    player = models.ForeignKey(
-        Player, verbose_name='Персонаж', on_delete=models.DO_NOTHING)  
-    item = models.ForeignKey(
-        InventoryItem, verbose_name='Предмет инвентаря', on_delete=models.DO_NOTHING)  
-    amount = models.IntegerField('Количество')   
-
-    def __str__(self):
-        return str(self.id)
-
-    class Meta:
-        verbose_name = ('Предмет инвентаря персонажа')
-        verbose_name_plural = ('Предметы инвентаря персонажа')
-
+   
 
 class Spell(models.Model):
     title = models.CharField('Название', max_length=255)
@@ -176,30 +161,3 @@ class PlayerSkill(models.Model):
     class Meta:
         verbose_name = ('Навык персонажа')
         verbose_name_plural = ('Навыки персонажа')
-
-
-#class InventoryCategoryCharacteristic(models.Model):
-    #title = models.CharField('Название', max_length=255)    
-
-    #def __str__(self):
-        #return self.title
-
-    #class Meta:
-        #verbose_name = ('Характеристика предмета инвентаря')
-        #verbose_name_plural = ('Характеристики предмета инвентаря')
-
-
-#class ItemCharact(models.Model):
-    #item = models.ForeignKey(
-        #InventoryItem, verbose_name='Предмет инвентаря', on_delete=models.DO_NOTHING)   
-    #charact = models.ForeignKey(
-        #InventoryCategoryCharacteristic, verbose_name='Характеристика предмета инвентаря', on_delete=models.DO_NOTHING)   
-    #ch_value = models.CharField('Значение', max_length=255)
-
-    #def __str__(self):
-        #return str(self.id)
-
-    #class Meta:
-        #verbose_name = ('Значение характеристики')
-        #verbose_name_plural = ('Значения характеристики')
-    

@@ -8,12 +8,32 @@
     <div class="collapse navbar-collapse" id="navbarColor03"> 
       <ul class="navbar-nav me-auto">  
         {% if user.is_authenticated %} 
+        {% if user.is_superuser %} 
+            <li class="nav-item">
+              <a class="nav-link active" href="/admin/">Панель администрирования</a>
+            </li>  
+             <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Резервные копии</a> 
+          <div class="dropdown-menu">
+            <a class="dropdown-item" href="{% url 'make_copy_txt' %}">TXT</a>                         
+          </div>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Выгрузка</a> 
+          <div class="dropdown-menu">
+            <a class="dropdown-item" href="{% url 'make_copy_csv' %}">CSV</a> 
+             <a class="dropdown-item" href="{% url 'make_copy_pdf' %}">PDF</a>                         
+          </div>
+        </li>
+        {% endif %}
+        {% if not user.is_superuser %} 
         <li class="nav-item">
           <a class="nav-link" href="{% url 'profile' %}">Профиль</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="{% url 'create_player' %}">Создать персонажа</a>
         </li>
+        {% endif %}
         {% endif %}
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Справочники</a> 

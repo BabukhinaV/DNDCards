@@ -12,4 +12,7 @@ urlpatterns = [
     path('items/', views.items, name='items'), 
     path('histories/', views.histories, name='histories'), 
     path('spells/', views.spells, name='spells'), 
+    path('make_copy_txt/', views.make_copy_txt, name='make_copy_txt'),
+    path('make_copy_csv/', views.make_copy_csv, name='make_copy_csv'),
+    path('make_copy_pdf/', views.make_copy_pdf, name='make_copy_pdf'),
 ]
