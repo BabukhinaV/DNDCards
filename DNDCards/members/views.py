@@ -31,9 +31,7 @@ def register_user(request):
             form.save()
             username = form.cleaned_data['username']
             password = form.cleaned_data['password1']
-            user = authenticate(username=username, password=password)
-            player = Player(name = '', level = 1, pclass=None, race = None, exp = 0, history = None, user = user, img = 'images/user.png')
-            player.save()
+            user = authenticate(username=username, password=password)            
             login(request, user)
             messages.success(request, ("Вы зарегистрированы."))
             return redirect('home')

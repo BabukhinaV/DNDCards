@@ -84,7 +84,7 @@ class Player(models.Model):
     inventory = models.ManyToManyField(InventoryItem, verbose_name='Предмет инвентаря')
     
     def __str__(self):
-        return str(self.id)
+        return self.name
 
     class Meta:
         verbose_name = ('Персонаж')

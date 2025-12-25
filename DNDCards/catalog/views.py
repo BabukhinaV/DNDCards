@@ -1,11 +1,10 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
-import csv
-from django.http import FileResponse
-import io
-from reportlab.pdfgen import canvas
-from reportlab.lib.units import inch
-from reportlab.lib.pagesizes import letter
+import csv 
+import json
+from django.core import serializers
+from django.contrib import messages
+
 
 from catalog.models import History, InventoryCategory, InventoryItem, PClass, PClassSkill, Player, PlayerSkill, PlayerSpell, Race, Skill, Spell
 
@@ -133,7 +132,7 @@ def make_copy_txt(request):
 
 
 def make_copy_csv(request):
-    response = HttpResponse(content_type='text/csv')
+    response = HttpResponse(content_type='text/csv; charset=windows-1251')
     response['Content-Disposition'] = 'attachment; filename=data.csv'
 
     writer = csv.writer(response)
@@ -223,28 +222,14 @@ def make_copy_csv(request):
             for itm in player.inventory.all():
                 writer.writerow([str(player.id), player.name, itm.title])          
     
-    return response      
-
+    return response  
 
 
 def make_copy_pdf(request):
-    buf = io.BytesIO()
-    c = canvas.Canvas(buf, pagesize=letter, bottomup=0)
-    textob = c.beginText()
-    textob.setTextOrigin(inch, inch)
-    textob.setFont("Helvetica", 14)
-    lines = []    
-
-    lines.append('Имя\t Уровень\t Класс\t Раса\t Опыт\t Предыстория\t Логин\t Свободные очки\n')    
     players = Player.objects.all()
-    for player in players:
-        if player.name != None:
-            lines.append(player.name + '\t' + str(player.level) + '\t' + player.pclass.title + '\t' + str(player.exp) + '\t' + player.history.title + '\t' 
-                         + player.user.username+ '\t' + str(player.free_points))     
-    for line in lines:
-        textob.textLine(line)
-    c.drawText(textob)
-    c.showPage()
-    c.save()
-    buf.seek(0)
-    return FileResponse(buf, as_attachment=True, filename='data.pdf')
+    json_data = serializers.serialize("json", players)   
+    file_path = 'data.json'     
+    with open(file_path, "w") as out_file:
+        out_file.write(json_data)         
+    messages.success(request, ("Файл создан"))  
+    return redirect('home')
